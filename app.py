@@ -138,18 +138,24 @@ if api_key and video_id:
 
     cluster_labels = {0: "Low Engagement", 1: "Emotionally Mixed", 2: "Comment Spike"}
     features['cluster_label'] = features['cluster'].map(cluster_labels)
-    unique_labels = features['cluster_label'].unique()
-    color_map = {
-        label: color for label, color in zip(
-            unique_labels,
-            ["#1f77b4", "#d62728", "#2ca02c"]  # blue, red, green
-        )
-    }
+    # unique_labels = features['cluster_label'].unique()
+    # color_map = {
+    #     label: color for label, color in zip(
+    #         unique_labels,
+    #         ["#1f77b4", "#d62728", "#2ca02c"]  # blue, red, green
+    #     )
+    # }
 
 
     features = features.drop_duplicates(subset='minute').copy()
     features = features.sort_values(by='minute').copy()
     features['timestamp'] = features['minute'].apply(chunk_to_timestamp)
+
+    features['cluster_label'] = pd.Categorical(
+        features['cluster_label'],
+        categories=["Low Engagement", "Comment Spike", "Emotionally Mixed"],
+        ordered=True
+    )
 
     # Plot
     fig = px.bar(
@@ -157,10 +163,14 @@ if api_key and video_id:
         x='minute',
         y='comment_count',
         color='cluster_label',
-        color_discrete_map=color_map,
+        color_discrete_map={
+            "Low Engagement": "#1f77b4",
+            "Comment Spike": "#2ca02c",
+            "Emotionally Mixed": "#d62728"
+        },
         hover_data=['timestamp'],
         title='Viewer Engagement Clusters Across Video Timeline',
-        labels={'minute': 'Time (30-sec chunks)', 'comment_count': 'Comments'}
+        labels={'minute': 'Video timestamps', 'comment_count': 'Comments'}
     )
 
     fig.update_layout(
