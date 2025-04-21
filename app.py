@@ -149,6 +149,11 @@ if api_key and video_id:
         x='minute',
         y='comment_count',
         color='cluster_label',
+        color_discrete_map={
+            "Low Engagement": "#1f77b4",      # blue
+            "Comment Spike": "#2ca02c",       # green
+            "Emotionally Mixed": "#d62728"    # red
+        },
         hover_data=['timestamp'],
         title='Viewer Engagement Clusters Across Video Timeline',
         labels={'minute': 'Time (30-sec chunks)', 'comment_count': 'Comments'}
