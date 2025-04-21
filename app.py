@@ -35,7 +35,7 @@ def extract_video_id(url):
 # Emotion model
 @st.cache_resource
 def load_emotion_model():
-    return pipeline("text-classification", model="joeddav/distilbert-base-uncased-go-emotions-student", top_k=None)
+    return pipeline("text-classification", model="bhadresh-savani/distilbert-base-uncased-emotion", top_k=None)
 
 emotion_model = load_emotion_model()
 
