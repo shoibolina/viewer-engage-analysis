@@ -168,6 +168,9 @@ if api_key and video_id:
             "Comment Spike": "#2ca02c",
             "Emotionally Mixed": "#d62728"
         },
+        category_orders={
+        'cluster_label': ["Low Engagement", "Comment Spike", "Emotionally Mixed"]
+    },
         hover_data=['timestamp'],
         title='Viewer Engagement Clusters Across Video Timeline',
         labels={'minute': 'Video timestamps', 'comment_count': 'Comments'}
